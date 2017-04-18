@@ -1,7 +1,13 @@
 <?php
 
+session_start();
+
 define('DATA_LIB', 'data/');
-define('IMAGE_LIB', 'data/images/');
+define('IMAGE_LIB', '/data/images/');
+
+function is_logged(){
+    return isset($_SESSION['isLogged']); 
+}
 
 function findXML_toString($source = NULL, $select = NULL, $where = NULL, $value = NULL){
     
@@ -19,11 +25,13 @@ function findXML_toString($source = NULL, $select = NULL, $where = NULL, $value 
                     }
                 }
             }else {
+                $result = array();
                 foreach($xml as $item){
                     if( (string)$value == $item->$where ){
-                        return $item;
+                        array_push($result, $item);
                     }
                 }
+                return $result;
             }
         }else {
             return false;
@@ -53,24 +61,32 @@ function get_menu($source = NULL){
     
     foreach($xml as $item){
         $html .= '<li class="nav-item">';
-        $html .= '<a class="nav-link" href="?bid=' . $item->ID . '">' . $item->TEN . '</a>';
+        $html .= '<a class="nav-link" href="?nid=' . $item->ID . '">' . $item->TEN . '</a>';
         $html .= '</li>';
     }
     
     echo $html;
 }
 
-function get_source_deck($source = NULL, $source_id = NULL){
-    $xml = ($source == NULL) ? parseXML("manguon.xml") : parseXML($source);
-
-    $html = '<div class="card-deck">';
+function get_sources($source = NULL){
+    $xml = ($source == NULL) ? parseXML("") : parseXML($source);
+    
+    if( isset($_GET['nid']) ){
+        $xml = findXML_toString("manguon.xml", null, "NID", $_GET['nid']);
+    }else if( isset($_GET['id']) ){
+        $xml = findXML_toString("manguon.xml", null, "ID", $_GET['id']);
+    }
+    /*else if( isset($_GET['s']) ){
+        $xml = findXML_toString("manguon.xml", null, "TEN", $_GET['s']);
+    }*/
+    
+    $html = '<div class="card-columns">';
     foreach($xml as $item){
         $html .=    '<div class="card" id="source-' . $item->ID . '">' .
-                        '<img class="card-img-top" src="' . IMAGE_LIB . $item->IMG . '" alt="' . $item->TEN . ' banner">' .
                         '<div class="card-block">' .
-                            '<h4 class="card-title">' . $item->TEN . '</h4>' .
+                            '<a href="?id=' . $item->ID . '"><h4 class"card-title">' . $item->TEN . '</h4></a>' .
                             '<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>' .
-                            '<p class="card-text"><small class="text-muted">' . findXML_toString("ngonngu.xml", "TEN", "ID", $item->SID) . '</small></p>' .
+                            '<p class="card-text"><small class="text-muted">' . findXML_toString("ngonngu.xml", "TEN", "ID", $item->NID) . '</small></p>' .
                         '</div>' .
                     '</div>';
     }
