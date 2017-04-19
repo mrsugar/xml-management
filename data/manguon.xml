@@ -3,19 +3,21 @@
   <MANGUON>
     <ID>1</ID>
     <NID>1</NID>
-    <TEN>123</TEN>
-    <GT>456</GT>
+    <TEN>WordPress</TEN>
+    <GT>WordPress là một mã nguồn mở cho phép bạn tạo các website hoặc blog nhanh, đẹp và cực kỳ dễ dùng!&#13;
+&#13;
+WordPress được phát triển bởi cộng đồng trên toàn thế giới. Với hàng ngàn trình cắm và giao diện miễn phí, WordPress có thể làm được mọi điều bạn cần cho website của mình.</GT>
   </MANGUON>
   <MANGUON>
     <ID>2</ID>
-    <NID>1</NID>
-    <TEN>4567</TEN>
-    <GT>23456</GT>
+    <NID>2</NID>
+    <TEN>Apache Ant</TEN>
+    <GT>Apache Ant is a Java library and command-line tool whose mission is to drive processes described in build files as targets and extension points dependent upon each other. The main known usage of Ant is the build of Java applications. Ant supplies a number of built-in tasks allowing to compile, assemble, test and run Java applications. Ant can also be used effectively to build non Java applications, for instance C or C++ applications. More generally, Ant can be used to pilot any type of process which can be described in terms of targets and tasks.</GT>
   </MANGUON>
   <MANGUON>
     <ID>3</ID>
     <NID>1</NID>
-    <TEN>abc</TEN>
-    <GT>dfe</GT>
+    <TEN>Joomla</TEN>
+    <GT>Joomla! là một hệ quản trị nội dung nguồn mở, được cung cấp miễn phí theo giấy phép GNU. Joomla được phát triển từ Mambo, được viết bằng ngôn ngữ PHP và kết nối tới cơ sở dữ liệu MySQL, cho phép người sử dụng có thể dễ dàng xuất bản các nội dung[2] của họ lên Internet hoặc Intranet.</GT>
   </MANGUON>
 </MN>

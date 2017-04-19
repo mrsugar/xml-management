@@ -94,6 +94,8 @@ if(is_logged()):
 
 <?php
 
+get_footer(); 
+
 else:
   die();
 endif;

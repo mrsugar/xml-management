@@ -164,10 +164,10 @@ function get_select_from_xml($source = null, $selected = null){
 }
 
 function get_header(){
-    require('header.php');
+    require(__DIR__ . '/template/header.php');
 }
 
 function get_footer(){
-    require('footer.php');
+    require(__DIR__ . '/template/footer.php');
 }
 ?>
