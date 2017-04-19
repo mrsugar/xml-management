@@ -6,7 +6,7 @@ if(is_logged()):
   
   // Thêm mã nguồn
   if( isset($_POST['submit']) ){
-    if(isset($_GET['action'])){
+    if(isset($_GET['action']) && $_GET['action'] == "add"){
       // Chỉ thực hiện khi là hành động add hoặc edit
       $data = $_POST;
       switch($_GET['type']){
@@ -23,15 +23,30 @@ if(is_logged()):
           $manguon->addChild("TEN", $data['Ten']);
           $manguon->addChild("GT", $data['GT']);
           
-          $output = new DOMDocument('1.0');
-          $output->preserveWhiteSpace = false;
-          $output->loadXML($xml->saveXML());
-          $output->formatOutput = true;
-          if($output->save(DATA_LIB . "manguon.xml")){
-            header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&message=1");
+          saveXML("manguon.xml", $xml);
+          break;
+        case 'ngonngu':
+          if( $data['Ten'] == "" ){
+            header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&error=1");
+            break;
           }
+          $xml = parseXML("ngonngu.xml");
+          $maxID = findMaxXML("ngonngu.xml", "ID") + 1;
+          $ngonngu = $xml->addChild("NGONNGU");
+          $ngonngu->addChild("ID", $maxID);
+          $ngonngu->addChild("TEN", $data['Ten']);
+          $ngonngu->addChild("GT", $data['GT']);
+          
+          saveXML("ngonngu.xml", $xml);
           break;
       }
+    }
+  }
+  if (isset($_GET['action']) && $_GET['action'] == "delete" && $_GET['confirm'] == 1){
+    if ($_GET['type'] == 'ngonngu'){
+      deleteXML("ngonngu.xml", $_GET['id']);
+    } else {
+      deleteXML("manguon.xml", $_GET['id']);
     }
   }
     
@@ -84,7 +99,16 @@ if(is_logged()):
                   echo manguon_edit_form($xml[0]);
                 }
               }else if($_GET['action'] == 'add'){
-                echo manguon_edit_form($xml[0]);
+                switch($_GET['type']){
+                  case 'manguon':
+                    echo manguon_edit_form($xml[0]);
+                    break;
+                  case 'ngonngu':
+                    echo ngonngu_edit_form($xml[0]);
+                    break;
+                }
+              }else if($_GET['action'] == 'delete' && $_GET['confirm'] != 1){
+                echo 'Bạn có chắc muốn xóa? <a href="admin.php?action=' . $_GET["action"] . '&type=' . $_GET["type"] . '&id=' . $_GET["id"] . '&confirm=1">Có</a>';
               }
             }
             ?>
@@ -97,7 +121,7 @@ if(is_logged()):
 get_footer(); 
 
 else:
-  die();
+  header("Location: /");
 endif;
 
 ?>

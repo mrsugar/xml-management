@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <NN>
-    <NGONNGU>
-       <ID>1</ID>
-       <TEN>PHP</TEN>
-    </NGONNGU>
-    <NGONNGU>
-       <ID>2</ID>
-       <TEN>Java</TEN>
-    </NGONNGU>
-    <NGONNGU>
-       <ID>3</ID>
-       <TEN>C#</TEN>
-    </NGONNGU>
+  <NGONNGU>
+    <ID>1</ID>
+    <TEN>PHP</TEN>
+  </NGONNGU>
+  <NGONNGU>
+    <ID>2</ID>
+    <TEN>Java</TEN>
+    <GT/>
+  </NGONNGU>
 </NN>

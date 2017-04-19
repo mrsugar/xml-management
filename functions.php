@@ -90,6 +90,7 @@ function get_menu($source = NULL){
 
 function get_sources($source = NULL){
     $xml = ($source == NULL) ? parseXML("") : parseXML($source);
+    $loai = str_replace('.xml', '', $source);
     $innerClass = 'fewer-text';
     
     if( isset($_GET['nid']) ){
@@ -114,7 +115,8 @@ function get_sources($source = NULL){
                         '</div>';
         if( is_logged() ) {
             $html .= '<div class="card-footer text-muted">'.
-                        '<a href="/admin.php?id=' . $item->ID . '&action=edit">Chỉnh sửa</a>'.
+                        '<a href="/admin.php?type=' . $loai . '&id=' . $item->ID . '&action=edit">Chỉnh sửa</a> - '.
+                        '<a href="/admin.php?type=' . $loai . '&id=' . $item->ID . '&action=delete">Xóa</a>' .
                      '</div>';
         }
         $html .=    '</div>';
@@ -138,10 +140,34 @@ function manguon_edit_form($xml){
                     '<label for="GioiThieuInput" class="form-control-label">Giới thiệu:</label>' .
                     '<textarea class="form-control" rows="6" value="' . $xml->TEN . '" name="GT" id="GioiThieuInput">' . $xml->GT . '</textarea>' .
                 '</div>';
-    $html .=    '<div class="form-group btn-group">' .
-                    '<button class="btn btn-success" name="submit">Thêm mới</button>' .
-                    '<button class="btn btn-danger">Xóa</button>' .
-                    '<button class="btn btn-default">Trở về</button>' .
+    $html .=    '<div class="form-group btn-group">';
+    if($xml == null){
+        $html .=    '<button class="btn btn-success" name="submit">Thêm mới</button>';
+    } else {
+        $html .=    '<button class="btn btn-success" name="submit">Lưu</button>' .
+                    '<button class="btn btn-danger">Xóa</button>';
+    }
+    $html .=        '<button class="btn btn-default">Trở về</button>' .
+                '</div>';
+    $html .='</form>';
+    return $html;
+}
+
+// Admin function
+function ngonngu_edit_form($xml){
+    $html = '<form  method="POST">' .
+    $html .=    '<div class="form-group">' .
+                    '<label for="TenInput" class="form-control-label">Tên ngôn ngữ:</label>' .
+                    '<input type="text" class="form-control" value="' . $xml->TEN . '" name="Ten" id="TenInput">' .
+                '</div>';
+    $html .=    '<div class="form-group btn-group">';
+    if($xml == null){
+        $html .=    '<button class="btn btn-success" name="submit">Thêm mới</button>';
+    } else {
+        $html .=    '<button class="btn btn-success" name="submit">Lưu</button>' .
+                    '<button class="btn btn-danger">Xóa</button>';
+    }
+    $html .=        '<button class="btn btn-default">Trở về</button>' .
                 '</div>';
     $html .='</form>';
     return $html;
@@ -161,6 +187,37 @@ function get_select_from_xml($source = null, $selected = null){
     $html .= '</select>';
     
     return $html;
+}
+
+// Admin function
+function saveXML($source, $xml){
+    $output = new DOMDocument('1.0');
+    $output->preserveWhiteSpace = false;
+    $output->loadXML($xml->saveXML());
+    $output->formatOutput = true;
+    if($output->save(DATA_LIB . $source)){
+        header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&message=1");
+    }
+}
+
+// Admin function
+function deleteXML($source, $id){
+    $xml = parseXML($source);
+    $output = new DOMDocument; 
+    $output->preserveWhiteSpace = false;
+    $output->loadXML($xml->saveXML());
+    $output->formatOutput = true;
+    
+    $item = $output->documentElement->getElementsByTagname('NGONNGU');
+    foreach($item as $dom){
+        if ( (int)$dom->getElementsByTagname('ID')->item(0)->nodeValue == $id ){
+            $output->documentElement->removeChild($dom);
+        }
+    }
+    
+    if($output->save(DATA_LIB . $source)){
+        header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&message=1");
+    }
 }
 
 function get_header(){
