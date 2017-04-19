@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<S>
-    <SACH>
-        <ID>1</ID>
-        <NID>1</NID>
-        <TEN>WordPress</TEN>
-        <IMG>wordpress-banner.jpg</IMG>
-    </SACH>
-    <SACH>
-        <ID>2</ID>
-        <NID>1</NID>
-        <TEN>Joomla</TEN>
-        <IMG>wordpress-banner.jpg</IMG>
-    </SACH>
-    <SACH>
-        <ID>3</ID>
-        <NID>2</NID>
-        <TEN>Drupal</TEN>
-        <IMG>wordpress-banner.jpg</IMG>
-    </SACH>
-    <SACH>
-        <ID>4</ID>
-        <NID>3</NID>
-        <TEN>MVC</TEN>
-        <IMG>wordpress-banner.jpg</IMG>
-    </SACH>
-</S>
+<MN>
+  <MANGUON>
+    <ID>1</ID>
+    <NID>1</NID>
+    <TEN>123</TEN>
+    <GT>456</GT>
+  </MANGUON>
+  <MANGUON>
+    <ID>2</ID>
+    <NID>1</NID>
+    <TEN>4567</TEN>
+    <GT>23456</GT>
+  </MANGUON>
+  <MANGUON>
+    <ID>3</ID>
+    <NID>1</NID>
+    <TEN>abc</TEN>
+    <GT>dfe</GT>
+  </MANGUON>
+</MN>
