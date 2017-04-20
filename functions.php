@@ -94,29 +94,29 @@ function get_sources($source = NULL){
     $innerClass = 'fewer-text';
     
     if( isset($_GET['nid']) ){
-        $xml = findXML("manguon.xml", null, "NID", $_GET['nid']);
+        $xml = findXML("manguon.xml", null, "nid", $_GET['nid']);
     }else if( isset($_GET['id']) ){
-        $xml = findXML("manguon.xml", null, "ID", $_GET['id']);
+        $xml = findXML("manguon.xml", null, "id", $_GET['id']);
         $innerClass = '';
     }
     /*else if( isset($_GET['s']) ){
-        $xml = findXML("manguon.xml", null, "TEN", $_GET['s']);
+        $xml = findXML("manguon.xml", null, "ten", $_GET['s']);
     }*/
     
     $html = '<div class="card-columns">';
     foreach($xml as $item){
-        $ngonngu = findXML("ngonngu.xml", "TEN", "ID", $item->NID);
-        $ngonngu_id = $item->NID;
-        $html .=    '<div class="card" id="source-' . $item->ID . '">';
+        $ngonngu = findXML("ngonngu.xml", "ten", "id", $item->nid);
+        $ngonngu_id = $item->nid;
+        $html .=    '<div class="card" id="source-' . $item->id . '">';
         $html .=        '<div class="card-block">' .
-                            '<a href="?id=' . $item->ID . '"><h4 class"card-title">' . $item->TEN . '</h4></a>' .
-                            '<p class="card-text ' . $innerClass . '">' . $item->GT . '</p>' .
+                            '<a href="?id=' . $item->id . '"><h4 class"card-title">' . $item->ten . '</h4></a>' .
+                            '<p class="card-text ' . $innerClass . '">' . $item->gt . '</p>' .
                             '<p class="card-text"><a href="?nid=' . $ngonngu_id . '"><small class="text-muted">' . $ngonngu. '</small></a></p>' .
                         '</div>';
         if( is_logged() ) {
             $html .= '<div class="card-footer text-muted">'.
-                        '<a href="/admin.php?type=' . $loai . '&id=' . $item->ID . '&action=edit">Chỉnh sửa</a> - '.
-                        '<a href="/admin.php?type=' . $loai . '&id=' . $item->ID . '&action=delete">Xóa</a>' .
+                        '<a href="/admin.php?type=' . $loai . '&id=' . $item->id . '&action=edit">Chỉnh sửa</a> - '.
+                        '<a href="/admin.php?type=' . $loai . '&id=' . $item->id . '&action=delete">Xóa</a>' .
                      '</div>';
         }
         $html .=    '</div>';
@@ -128,17 +128,18 @@ function get_sources($source = NULL){
 // Admin function
 function manguon_edit_form($xml){
     $html = '<form  method="POST">' .
+            '<input type="hidden" value="' . $xml->id . '" name="id" id="TenInput">';
     $html .=    '<div class="form-group">' .
                     '<label for="TenInput" class="form-control-label">Tên mã nguồn:</label>' .
-                    '<input type="text" class="form-control" value="' . $xml->TEN . '" name="Ten" id="TenInput">' .
+                    '<input type="text" class="form-control" value="' . $xml->ten . '" name="ten" id="TenInput">' .
                 '</div>';
     $html .=    '<div class="form-group">' .
                     '<label for="NgonNguInput" class="form-control-label">Ngôn ngữ:</label>' .
-                    get_select_from_xml("ngonngu.xml", $xml->NID) .
+                    get_select_from_xml("ngonngu.xml", $xml->nid) .
                 '</div>';
     $html .=    '<div class="form-group">' .
                     '<label for="GioiThieuInput" class="form-control-label">Giới thiệu:</label>' .
-                    '<textarea class="form-control" rows="6" value="' . $xml->TEN . '" name="GT" id="GioiThieuInput">' . $xml->GT . '</textarea>' .
+                    '<textarea class="form-control" rows="6" value="' . $xml->ten . '" name="gt" id="GioiThieuInput">' . $xml->gt . '</textarea>' .
                 '</div>';
     $html .=    '<div class="form-group btn-group">';
     if($xml == null){
@@ -156,9 +157,10 @@ function manguon_edit_form($xml){
 // Admin function
 function ngonngu_edit_form($xml){
     $html = '<form  method="POST">' .
+            '<input type="hidden" value="' . $xml->id . '" name="id" id="TenInput">';
     $html .=    '<div class="form-group">' .
                     '<label for="TenInput" class="form-control-label">Tên ngôn ngữ:</label>' .
-                    '<input type="text" class="form-control" value="' . $xml->TEN . '" name="Ten" id="TenInput">' .
+                    '<input type="text" class="form-control" value="' . $xml->ten . '" name="ten" id="TenInput">' .
                 '</div>';
     $html .=    '<div class="form-group btn-group">';
     if($xml == null){
@@ -176,12 +178,12 @@ function ngonngu_edit_form($xml){
 // Admin function
 function get_select_from_xml($source = null, $selected = null){
     $xml = ($source == NULL) ? parseXML("ngonngu.xml") : parseXML($source);
-    $html = '<select name="NID" class="form-control" id="SInput">';
+    $html = '<select name="nid" class="form-control" id="SInput">';
     foreach($xml as $item){
-        if( (string)$selected == $item->ID ){
-            $html .= '<option selected="selected" value="' . $item->ID . '">' . $item->TEN . '</option>';
+        if( (string)$selected == $item->id ){
+            $html .= '<option selected="selected" value="' . $item->id . '">' . $item->ten . '</option>';
         }else {
-            $html .= '<option value="' . $item->ID . '">' . $item->TEN . '</option>';
+            $html .= '<option value="' . $item->id . '">' . $item->ten . '</option>';
         }
     }
     $html .= '</select>';
@@ -208,15 +210,42 @@ function deleteXML($source, $id){
     $output->loadXML($xml->saveXML());
     $output->formatOutput = true;
     
-    $item = $output->documentElement->getElementsByTagname('NGONNGU');
+    $loai = str_replace('.xml', '', $source);
+    $item = $output->documentElement->getElementsByTagname($loai);
     foreach($item as $dom){
-        if ( (int)$dom->getElementsByTagname('ID')->item(0)->nodeValue == $id ){
+        if ( (int)$dom->getElementsByTagname('id')->item(0)->nodeValue == $id ){
             $output->documentElement->removeChild($dom);
         }
     }
     
     if($output->save(DATA_LIB . $source)){
         header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&message=1");
+    }
+}
+
+// Admin function
+function editXML($source, $data){
+    $xml = parseXML($source);
+    $output = new DOMDocument; 
+    $output->preserveWhiteSpace = false;
+    $output->loadXML($xml->saveXML());
+    $output->formatOutput = true;
+    
+    $loai = str_replace('.xml', '', $source);
+    $item = $output->documentElement->getElementsByTagname($loai);
+    foreach($item as $dom){
+        if ( (int)$dom->getElementsByTagname('id')->item(0)->nodeValue == $data['id'] ){
+            foreach($data as $key => $value){
+                if($key != 'submit'){
+                    $replaceChild = $dom->getElementsByTagname($key)->item(0);
+                    $replaceChild->nodeValue = $value;
+                    $dom->replaceChild($replaceChild, $replaceChild);
+                }
+            }
+        }
+    }
+    if($output->save(DATA_LIB . $source)){
+        header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&id=" . $data['id'] . "&message=1");
     }
 }
 

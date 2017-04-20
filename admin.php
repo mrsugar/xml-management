@@ -11,34 +11,40 @@ if(is_logged()):
       $data = $_POST;
       switch($_GET['type']){
         case 'manguon':
-          if( $data['NID'] == "" || $data['Ten'] == "" || $data['GT'] == "" ){
+          if( $data['nid'] == "" || $data['ten'] == "" || $data['gt'] == "" ){
             header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&error=1");
             break;
           }
           $xml = parseXML("manguon.xml");
-          $maxID = findMaxXML("manguon.xml", "ID") + 1;
-          $manguon = $xml->addChild("MANGUON");
-          $manguon->addChild("ID", $maxID);
-          $manguon->addChild("NID", $data['NID']);
-          $manguon->addChild("TEN", $data['Ten']);
-          $manguon->addChild("GT", $data['GT']);
+          $maxID = findMaxXML("manguon.xml", "id") + 1;
+          $manguon = $xml->addChild("manguon");
+          $manguon->addChild("id", $maxID);
+          $manguon->addChild("nid", $data['NID']);
+          $manguon->addChild("ten", $data['Ten']);
+          $manguon->addChild("gt", $data['GT']);
           
           saveXML("manguon.xml", $xml);
           break;
         case 'ngonngu':
-          if( $data['Ten'] == "" ){
+          if( $data['ten'] == "" ){
             header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&error=1");
             break;
           }
           $xml = parseXML("ngonngu.xml");
-          $maxID = findMaxXML("ngonngu.xml", "ID") + 1;
-          $ngonngu = $xml->addChild("NGONNGU");
-          $ngonngu->addChild("ID", $maxID);
-          $ngonngu->addChild("TEN", $data['Ten']);
-          $ngonngu->addChild("GT", $data['GT']);
+          $maxID = findMaxXML("ngonngu.xml", "id") + 1;
+          $ngonngu = $xml->addChild("ngonngu");
+          $ngonngu->addChild("id", $maxID);
+          $ngonngu->addChild("ten", $data['ten']);
+          $ngonngu->addChild("gt", $data['gt']);
           
           saveXML("ngonngu.xml", $xml);
           break;
+      }
+    } else if(isset($_GET['action']) && $_GET['action'] == "edit"){
+      if ($_GET['type'] == 'ngonngu'){
+        editXML('ngonngu.xml', $_POST);
+      } else {
+        editXML('manguon.xml', $_POST);
       }
     }
   }
@@ -72,33 +78,57 @@ if(is_logged()):
             <?php 
             if(isset($_GET)){
               
-              if($_GET['error'] != null){
-                switch($_GET['error']){
-                  case 1:
-                    $err = 'Vui lòng điền đầy đủ nội dung cần thiết';
-                    break;
-                }
-                echo '<div class="alert alert-danger" role="alert">' . $err . '</div>';
-              }else if($_GET['message'] != null){
-                switch($_GET['message']){
-                  case 1:
-                    $mess = 'Đã thêm nội dung thành công';
-                    break;
-                }
-                echo '<div class="alert alert-success" role="alert">' . $mess . '</div>';
-              }
               
               if($_GET['list'] == 'manguon'){
                 get_sources("manguon.xml");
               }else if($_GET['list'] == 'ngonngu'){
                 get_sources("ngonngu.xml");
+                
               }else if($_GET['action'] == 'edit'){
                 if( ($_GET['id'] != null) ){
+                  if($_GET['error'] != null){
+                    switch($_GET['error']){
+                      case 1:
+                        $err = 'Vui lòng điền đầy đủ nội dung cần thiết';
+                        break;
+                    }
+                    echo '<div class="alert alert-danger" role="alert">' . $err . '</div>';
+                  }else if($_GET['message'] != null){
+                    switch($_GET['message']){
+                      case 1:
+                        $mess = 'Đã sửa nội dung thành công';
+                        break;
+                    }
+                    echo '<div class="alert alert-success" role="alert">' . $mess . '</div>';
+                  }
                   // Chỉnh sửa mã nguồn
-                  $xml = findXML("manguon.xml", null, "ID", $_GET['id']);
-                  echo manguon_edit_form($xml[0]);
+                  switch($_GET['type']){
+                    case 'manguon':
+                      $xml = findXML("manguon.xml", null, "id", $_GET['id']);
+                      echo manguon_edit_form($xml[0]);
+                      break;
+                    case 'ngonngu':
+                      $xml = findXML("ngonngu.xml", null, "id", $_GET['id']);
+                      echo ngonngu_edit_form($xml[0]);
+                      break;
+                  }
                 }
               }else if($_GET['action'] == 'add'){
+                if($_GET['error'] != null){
+                  switch($_GET['error']){
+                    case 1:
+                      $err = 'Vui lòng điền đầy đủ nội dung cần thiết';
+                      break;
+                  }
+                  echo '<div class="alert alert-danger" role="alert">' . $err . '</div>';
+                }else if($_GET['message'] != null){
+                  switch($_GET['message']){
+                    case 1:
+                      $mess = 'Đã thêm nội dung thành công';
+                      break;
+                  }
+                  echo '<div class="alert alert-success" role="alert">' . $mess . '</div>';
+                }
                 switch($_GET['type']){
                   case 'manguon':
                     echo manguon_edit_form($xml[0]);
