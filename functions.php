@@ -81,7 +81,7 @@ function get_menu($source = NULL){
     
     foreach($xml as $item){
         $html .= '<li class="nav-item">';
-        $html .= '<a class="nav-link" href="?nid=' . $item->ID . '">' . $item->TEN . '</a>';
+        $html .= '<a class="nav-link" href="?nid=' . $item->id . '">' . $item->ten . '</a>';
         $html .= '</li>';
     }
     
@@ -109,7 +109,7 @@ function get_sources($source = NULL){
         $ngonngu_id = $item->nid;
         $html .=    '<div class="card" id="source-' . $item->id . '">';
         $html .=        '<div class="card-block">' .
-                            '<a href="?id=' . $item->id . '"><h4 class"card-title">' . $item->ten . '</h4></a>' .
+                            '<a href="/?id=' . $item->id . '"><h4 class"card-title">' . $item->ten . '</h4></a>' .
                             '<p class="card-text ' . $innerClass . '">' . $item->gt . '</p>' .
                             '<p class="card-text"><a href="?nid=' . $ngonngu_id . '"><small class="text-muted">' . $ngonngu. '</small></a></p>' .
                         '</div>';
@@ -148,7 +148,7 @@ function manguon_edit_form($xml){
         $html .=    '<button class="btn btn-success" name="submit">Lưu</button>' .
                     '<button class="btn btn-danger">Xóa</button>';
     }
-    $html .=        '<button class="btn btn-default">Trở về</button>' .
+    $html .=        '<a href="/admin.php?list=manguon" class="btn btn-secondary">Trở về</a>' .
                 '</div>';
     $html .='</form>';
     return $html;
@@ -169,7 +169,7 @@ function ngonngu_edit_form($xml){
         $html .=    '<button class="btn btn-success" name="submit">Lưu</button>' .
                     '<button class="btn btn-danger">Xóa</button>';
     }
-    $html .=        '<button class="btn btn-default">Trở về</button>' .
+    $html .=        '<a href="/admin.php?list=ngonngu" class="btn btn-secondary">Trở về</a>' .
                 '</div>';
     $html .='</form>';
     return $html;
