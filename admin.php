@@ -19,9 +19,9 @@ if(is_logged()):
           $maxID = findMaxXML("manguon.xml", "id") + 1;
           $manguon = $xml->addChild("manguon");
           $manguon->addChild("id", $maxID);
-          $manguon->addChild("nid", $data['NID']);
-          $manguon->addChild("ten", $data['Ten']);
-          $manguon->addChild("gt", $data['GT']);
+          $manguon->addChild("nid", $data['nid']);
+          $manguon->addChild("ten", $data['ten']);
+          $manguon->addChild("gt", $data['gt']);
           
           saveXML("manguon.xml", $xml);
           break;

@@ -4,6 +4,20 @@
     <id>2</id>
     <nid>1</nid>
     <ten>WordPress</ten>
-    <gt>Giới thiệu về WordPress</gt>
+    <gt>WordPress là một mã nguồn mở cho phép bạn tạo các website hoặc blog nhanh, đẹp và cực kỳ dễ dùng!&#13;
+&#13;
+WordPress được phát triển bởi cộng đồng trên toàn thế giới. Với hàng ngàn trình cắm và giao diện miễn phí, WordPress có thể làm được mọi điều bạn cần cho website của mình.</gt>
+  </manguon>
+  <manguon>
+    <id>3</id>
+    <nid>1</nid>
+    <ten>Joomla</ten>
+    <gt>Joomla! là một hệ quản trị nội dung[1] nguồn mở, được cung cấp miễn phí theo giấy phép GNU. Joomla được phát triển từ Mambo, được viết bằng ngôn ngữ PHP và kết nối tới cơ sở dữ liệu MySQL, cho phép người sử dụng có thể dễ dàng xuất bản các nội dung[2] của họ lên Internet hoặc Intranet.</gt>
+  </manguon>
+  <manguon>
+    <id>4</id>
+    <nid>2</nid>
+    <ten>Bootstrap</ten>
+    <gt>Bootstrap hỗ trợ phát triển các dự án web phía front-end nhanh hơn và dễ dàng hơn. Được tạo ra để làm việc với tất cả các mức độ kỹ năng khác nhau của lập trình viên, tất cả các thiết bị khác nhau, và các mức độ dự án khác nhau.</gt>
   </manguon>
 </MN>
