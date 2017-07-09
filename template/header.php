@@ -13,17 +13,22 @@
             .card-columns {
                 column-count: 1;
             }
-
-            body { padding-top: 2rem; }
-            .header { margin-bottom: 4rem }
-            .green { background-color: #2ecc71!important;}
+            body {
+                padding-top: 2rem;
+            }
+            .header {
+                margin-bottom: 4rem
+            }
+            .green {
+                background-color: #2ecc71!important;
+            }
             .fewer-text {
-                 overflow: hidden;
-                 text-overflow: ellipsis;
-                 display: -webkit-box;
-                 -webkit-box-orient: vertical;
-                 -webkit-line-clamp: 2; /* number of lines to show */
-                 
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                /* number of lines to show */
             }
         </style>
     </head>
