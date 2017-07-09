@@ -2,7 +2,7 @@
 <phpunit>
   <testsuites>
     <testsuite name="XML Manager Test">
-      <directory suffix=".php">./</directory>
+      <directory suffix="index.php">./</directory>
     </testsuite>
   </testsuites>
 </phpunit>
