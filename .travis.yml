@@ -7,4 +7,5 @@ php:
   - '7.1'
   - hhvm
   - nightly
+dist: trusty
 script: phpunit --configuration phpunit.xml
