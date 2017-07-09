@@ -14,7 +14,7 @@
               <div class="modal-body">
                 <div class="alert alert-success" style="display: none" role="alert" id="LoginAlert">
                   <strong>Đăng nhập thành công!</strong> Đợi giây lát
-                </div> 
+                </div>
                 <div class="alert alert-danger" style="display: none" role="alert" id="LoginFail">
                   <strong>Lỗi!</strong> Sai tên đăng nhập hoặc mật khẩu.
                 </div>
@@ -35,9 +35,13 @@
               </div>
             </div>
           </div>
-        </div>   
+        </div>
         <!-- end login modal -->
     <?php
         endif; ?>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+      <script src="/script.js"></script>
     </body>
 </html>

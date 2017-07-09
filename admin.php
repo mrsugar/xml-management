@@ -2,16 +2,16 @@
 
 require('functions.php');
 
-if(is_logged()):
-  
+if (is_logged()):
+
   // Thêm mã nguồn
-  if( isset($_POST['submit']) ){
-    if(isset($_GET['action']) && $_GET['action'] == "add"){
+  if (isset($_POST['submit'])){
+    if (isset($_GET['action']) && $_GET['action'] == "add"){
       // Chỉ thực hiện khi là hành động add hoặc edit
       $data = $_POST;
-      switch($_GET['type']){
+      switch ($_GET['type']){
         case 'manguon':
-          if( $data['nid'] == "" || $data['ten'] == "" || $data['gt'] == "" ){
+          if ($data['nid'] == "" || $data['ten'] == "" || $data['gt'] == ""){
             header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&error=1");
             break;
           }
@@ -22,11 +22,10 @@ if(is_logged()):
           $manguon->addChild("nid", $data['nid']);
           $manguon->addChild("ten", $data['ten']);
           $manguon->addChild("gt", $data['gt']);
-          
           saveXML("manguon.xml", $xml);
           break;
         case 'ngonngu':
-          if( $data['ten'] == "" ){
+          if ($data['ten'] == ""){
             header("Location: /admin.php?action=" . $_GET['action'] . "&type=" . $_GET['type'] . "&error=1");
             break;
           }
@@ -36,11 +35,10 @@ if(is_logged()):
           $ngonngu->addChild("id", $maxID);
           $ngonngu->addChild("ten", $data['ten']);
           $ngonngu->addChild("gt", $data['gt']);
-          
           saveXML("ngonngu.xml", $xml);
           break;
       }
-    } else if(isset($_GET['action']) && $_GET['action'] == "edit"){
+    } else if (isset($_GET['action']) && $_GET['action'] == "edit"){
       if ($_GET['type'] == 'ngonngu'){
         editXML('ngonngu.xml', $_POST);
       } else {
@@ -55,8 +53,8 @@ if(is_logged()):
       deleteXML("manguon.xml", $_GET['id']);
     }
   }
-    
-  
+
+
 ?>
 
 <?php get_header(); ?>
@@ -70,31 +68,31 @@ if(is_logged()):
               <a class="nav-link" href="?list=ngonngu">Danh sách ngôn ngữ</a>
             </nav>
             <nav class="nav flex-column">
-              <a class="nav-link active" href="?action=add&type=manguon">Thêm mã nguồn</a>
-              <a class="nav-link" href="?action=add&type=ngonngu">Thêm ngôn ngữ</a>
+              <a class="nav-link active" href="?action=add&amp;type=manguon">Thêm mã nguồn</a>
+              <a class="nav-link" href="?action=add&amp;type=ngonngu">Thêm ngôn ngữ</a>
             </nav>
         </div>
         <div class="col-md-9">
-            <?php 
-            if(isset($_GET)){
-              
-              
-              if($_GET['list'] == 'manguon'){
+            <?php
+            if (isset($_GET)) {
+
+
+              if ($_GET['list'] == 'manguon') {
                 get_sources("manguon.xml");
-              }else if($_GET['list'] == 'ngonngu'){
+              } else if($_GET['list'] == 'ngonngu') {
                 get_sources("ngonngu.xml");
-                
-              }else if($_GET['action'] == 'edit'){
-                if( ($_GET['id'] != null) ){
-                  if($_GET['error'] != null){
-                    switch($_GET['error']){
+
+              } else if($_GET['action'] == 'edit') {
+                if ($_GET['id'] != null) {
+                  if ($_GET['error'] != null) {
+                    switch ($_GET['error']) {
                       case 1:
                         $err = 'Vui lòng điền đầy đủ nội dung cần thiết';
                         break;
                     }
                     echo '<div class="alert alert-danger" role="alert">' . $err . '</div>';
-                  }else if($_GET['message'] != null){
-                    switch($_GET['message']){
+                  } else if ($_GET['message'] != null) {
+                    switch ($_GET['message']) {
                       case 1:
                         $mess = 'Đã sửa nội dung thành công';
                         break;
@@ -102,7 +100,7 @@ if(is_logged()):
                     echo '<div class="alert alert-success" role="alert">' . $mess . '</div>';
                   }
                   // Chỉnh sửa mã nguồn
-                  switch($_GET['type']){
+                  switch ($_GET['type']) {
                     case 'manguon':
                       $xml = findXML("manguon.xml", null, "id", $_GET['id']);
                       echo manguon_edit_form($xml[0]);
@@ -113,23 +111,23 @@ if(is_logged()):
                       break;
                   }
                 }
-              }else if($_GET['action'] == 'add'){
-                if($_GET['error'] != null){
-                  switch($_GET['error']){
+              }else if($_GET['action'] == 'add') {
+                if ($_GET['error'] != null) {
+                  switch ($_GET['error']) {
                     case 1:
                       $err = 'Vui lòng điền đầy đủ nội dung cần thiết';
                       break;
                   }
                   echo '<div class="alert alert-danger" role="alert">' . $err . '</div>';
-                }else if($_GET['message'] != null){
-                  switch($_GET['message']){
+                } else if ($_GET['message'] != null) {
+                  switch ($_GET['message']) {
                     case 1:
                       $mess = 'Đã thêm nội dung thành công';
                       break;
                   }
                   echo '<div class="alert alert-success" role="alert">' . $mess . '</div>';
                 }
-                switch($_GET['type']){
+                switch ($_GET['type']) {
                   case 'manguon':
                     echo manguon_edit_form($xml[0]);
                     break;
@@ -137,7 +135,7 @@ if(is_logged()):
                     echo ngonngu_edit_form($xml[0]);
                     break;
                 }
-              }else if($_GET['action'] == 'delete' && $_GET['confirm'] != 1){
+              } else if ($_GET['action'] == 'delete' && $_GET['confirm'] != 1) {
                 echo 'Bạn có chắc muốn xóa? <a href="admin.php?action=' . $_GET["action"] . '&type=' . $_GET["type"] . '&id=' . $_GET["id"] . '&confirm=1">Có</a>';
               }
             }
@@ -148,7 +146,7 @@ if(is_logged()):
 
 <?php
 
-get_footer(); 
+get_footer();
 
 else:
   header("Location: /");
